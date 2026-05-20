@@ -374,10 +374,12 @@ export default function App() {
                                   )}
                                   {p.email && (
                                     <div className="flex flex-col gap-1.5 px-2">
-                                      <div className="flex items-center gap-3">
-                                        <Mail className="h-4 w-4 opacity-50 shrink-0" /> 
-                                        <span className="truncate">{p.email}</span>
-                                      </div>
+                                      {p.email.split(',').map((e, i) => e.trim() && (
+                                        <div key={i} className="flex items-center gap-3">
+                                          <Mail className="h-4 w-4 opacity-50 shrink-0" /> 
+                                          <span className="truncate">{e.trim()}</span>
+                                        </div>
+                                      ))}
                                     </div>
                                   )}
                                 </div>
@@ -639,12 +641,16 @@ export default function App() {
                 <div>
                   <label className="block text-[10px] font-bold tracking-[0.2em] text-cyan-300 mb-2 uppercase">E-mail(s)</label>
                   <input value={email} onChange={(e) => setEmail(e.target.value.toLowerCase())} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all" placeholder="email1@ex.com, email2@ex.com" type="text" />
+                  {categoria === 'Linhas de Cuidado e Áreas Técnicas' && (
+                    <p className="text-[8px] text-cyan-400/60 mt-1 uppercase tracking-widest">Separe por vírgula. Ex: mail1 (Linha 1), mail2 (Linha 2)</p>
+                  )}
                 </div>
               </div>
               {categoria === 'Linhas de Cuidado e Áreas Técnicas' ? (
                 <div className="animate-in slide-in-from-top-2">
-                  <label className="block text-[10px] font-bold tracking-[0.2em] text-cyan-300 mb-2 uppercase">Linha / Área de Atuação</label>
-                  <input value={linhaCuidado} onChange={(e) => setLinhaCuidado(e.target.value.toUpperCase())} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all uppercase" placeholder="Ex: Hipertensão, Saúde Mental..." type="text" required />
+                  <label className="block text-[10px] font-bold tracking-[0.2em] text-cyan-300 mb-2 uppercase">Linha(s) / Área(s) de Atuação</label>
+                  <input value={linhaCuidado} onChange={(e) => setLinhaCuidado(e.target.value.toUpperCase())} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all uppercase" placeholder="Linha 1, Linha 2..." type="text" required />
+                  <p className="text-[8px] text-cyan-400/60 mt-1 uppercase tracking-widest">Separe por vírgula para múltiplas áreas.</p>
                 </div>
               ) : (
                 <div className="animate-in slide-in-from-top-2">
@@ -733,7 +739,9 @@ export default function App() {
                                 <p className="text-lg md:text-xl font-bold text-white truncate">{p.nome}</p>
                                 <div className="flex flex-col gap-1.5 md:gap-2 mt-2 text-xs md:text-sm text-cyan-100/70">
                                   {p.telefone && <span className="flex items-center gap-1.5"><Phone className="h-3 w-3 shrink-0" /> {p.telefone}</span>}
-                                  {p.email && <span className="flex items-center gap-1.5 truncate"><Mail className="h-3 w-3 shrink-0" /> {p.email}</span>}
+                                  {p.email && p.email.split(',').map((e, i) => e.trim() && (
+                                    <span key={i} className="flex items-center gap-1.5 truncate"><Mail className="h-3 w-3 shrink-0" /> {e.trim()}</span>
+                                  ))}
                                 </div>
                               </div>
                             </div>
