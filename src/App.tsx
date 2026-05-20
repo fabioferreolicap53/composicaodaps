@@ -251,7 +251,7 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen text-on-surface bg-background font-sans selection:bg-secondary-fixed selection:text-on-secondary-fixed">
       {/* Premium Header */}
-      <header className="bg-gradient-to-r from-[#001b3d] to-[#002b5c] border-b border-cyan-400/20 shadow-[0_4px_30px_rgba(0,0,0,0.3)] flex justify-between items-center w-full px-4 md:px-10 h-20 shrink-0 print:hidden relative overflow-hidden">
+      <header className={`${presentationStep > 0 ? 'hidden' : 'flex'} sticky top-0 z-[100] bg-gradient-to-r from-[#001b3d] to-[#002b5c] border-b border-cyan-400/20 shadow-[0_4px_30px_rgba(0,0,0,0.3)] justify-between items-center w-full px-4 md:px-10 h-20 shrink-0 print:hidden overflow-hidden`}>
         {/* Glow Effects */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
@@ -280,7 +280,7 @@ export default function App() {
             </div>
           )}
           {/* Page Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
+          <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-md py-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-outline-variant/10 -mx-4 px-4 md:-mx-10 md:px-10">
             <div className="w-full md:w-auto text-center md:text-left">
               <h2 className="text-3xl md:text-4xl leading-tight tracking-tight text-primary font-bold print:text-black">DAPS CAP5.3</h2>
               <p className="text-lg md:text-xl text-on-surface-variant font-semibold mt-1 print:text-black">Divisão de Ações e Programas de Saúde</p>
