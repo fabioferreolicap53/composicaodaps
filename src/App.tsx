@@ -279,58 +279,16 @@ export default function App() {
               </div>
             </div>
           )}
-          {/* Page Header */}
-          <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-md py-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-outline-variant/10 -mx-4 px-4 md:-mx-10 md:px-10">
-            <div className="w-full md:w-auto text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl leading-tight tracking-tight text-primary font-bold print:text-black">DAPS CAP5.3</h2>
-              <p className="text-lg md:text-xl text-on-surface-variant font-semibold mt-1 print:text-black">Divisão de Ações e Programas de Saúde</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 print:hidden w-full md:w-auto items-center">
-              {/* Search Bar */}
-              <div className="relative group w-full sm:w-[240px]">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-on-surface-variant/50 group-focus-within:text-primary transition-colors" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Pesquisar profissionais, áreas..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full pl-12 pr-4 h-14 border border-outline-variant/60 rounded-2xl leading-5 bg-surface text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container transition-all text-sm"
-                />
-                {searchTerm && (
-                  <button 
-                    onClick={() => setSearchTerm('')}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant/50 hover:text-primary transition-colors"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <button 
-                  className="w-full sm:w-[240px] h-14 flex items-center justify-center rounded-2xl bg-[#001b3d] border border-cyan-400/20 text-white hover:bg-[#002b5c] hover:border-cyan-400/40 hover:shadow-[0_8px_25px_-5px_rgba(0,27,61,0.4)] transition-all gap-3 group active:scale-[0.98]" 
-                  onClick={() => setPresentationStep(1)}
-                >
-                  <Projector className="h-6 w-6 text-cyan-400 transition-transform group-hover:scale-110 shrink-0" />
-                  <span className="text-sm font-black uppercase tracking-[0.15em] whitespace-nowrap">Apresentação</span>
-                </button>
-                <button 
-                    className="w-full sm:w-[240px] h-14 flex items-center justify-center rounded-2xl bg-[#001b3d] border border-cyan-400/20 text-white hover:bg-[#002b5c] hover:border-cyan-400/40 hover:shadow-[0_8px_25px_-5px_rgba(0,27,61,0.4)] transition-all gap-3 group active:scale-[0.98]" 
-                    onClick={handleOpenAddModal}
-                  >
-                    <UserPlus className="h-6 w-6 text-cyan-400 transition-transform group-hover:scale-110 shrink-0" />
-                    <span className="text-sm font-black uppercase tracking-[0.15em] whitespace-nowrap">Novo Profissional</span>
-                  </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
             {/* Coluna Principal: Linhas de Cuidado (2 colunas de largura) */}
             <div className="lg:col-span-2 space-y-8">
+              {/* Título da Página conforme Imagem */}
+              <div className="mb-6">
+                <h2 className="text-3xl md:text-5xl font-bold text-primary tracking-tight">DAPS CAP5.3</h2>
+                <p className="text-lg md:text-xl text-on-surface-variant font-semibold mt-1">Divisão de Ações e Programas de Saúde</p>
+              </div>
+
               {/* Linhas de Cuidado e Áreas Técnicas Agrupadas */}
               {Object.keys(linhasAgrupadas).length > 0 && (
                 <section className="bg-gradient-to-br from-[#001b3d] to-[#002b5c] rounded-[32px] p-8 shadow-xl relative overflow-hidden print:bg-white print:text-black print:border print:border-gray-200 min-h-[600px]">
@@ -395,6 +353,48 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-1 flex flex-col gap-8">
+              {/* Controles: Busca e Botões conforme Imagem */}
+              <div className="flex flex-col gap-4 print:hidden">
+                {/* Search Bar */}
+                <div className="relative group w-full">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-5 w-5 text-on-surface-variant/50 group-focus-within:text-primary transition-colors" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Pesquisar profissionais, áreas..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="block w-full pl-12 pr-4 h-14 border border-outline-variant/60 rounded-2xl leading-5 bg-surface text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container transition-all text-sm shadow-sm"
+                  />
+                  {searchTerm && (
+                    <button 
+                      onClick={() => setSearchTerm('')}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant/50 hover:text-primary transition-colors"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                
+                <div className="flex gap-4">
+                  <button 
+                    className="flex-1 h-14 flex items-center justify-center rounded-2xl bg-[#001b3d] border border-cyan-400/20 text-white hover:bg-[#002b5c] hover:border-cyan-400/40 transition-all gap-2 group active:scale-[0.98] shadow-sm" 
+                    onClick={() => setPresentationStep(1)}
+                  >
+                    <Projector className="h-5 w-5 text-cyan-400 shrink-0" />
+                    <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Apresentação</span>
+                  </button>
+                  <button 
+                      className="flex-1 h-14 flex items-center justify-center rounded-2xl bg-[#001b3d] border border-cyan-400/20 text-white hover:bg-[#002b5c] hover:border-cyan-400/40 transition-all gap-2 group active:scale-[0.98] shadow-sm" 
+                      onClick={handleOpenAddModal}
+                    >
+                      <UserPlus className="h-5 w-5 text-cyan-400 shrink-0" />
+                      <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Novo Profissional</span>
+                    </button>
+                </div>
+              </div>
+
               {direcao.length > 0 && (
                 <section className="bg-gradient-to-br from-[#002b5c] to-[#001b3d] rounded-[32px] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden border border-white/10 print:bg-white print:text-black print:border print:border-gray-200 group">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-white/10 transition-colors" />
@@ -689,14 +689,14 @@ export default function App() {
                     <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">Consolidado</h2>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 px-4">
-                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center min-h-[300px] md:min-h-[350px]">
+                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                       <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-cyan-400/10 text-cyan-300 flex items-center justify-center border border-cyan-400/20 shrink-0"><Users className="h-8 w-8 md:h-10 md:w-10" /></div>
                         <div className="flex flex-col items-center gap-2"><h4 className="text-base md:text-lg font-bold text-white/70 uppercase tracking-widest">Total Geral</h4><p className="text-6xl md:text-7xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{profissionais.length}</p></div>
                       </div>
                     </div>
-                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center min-h-[300px] md:min-h-[350px]">
+                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                       <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-emerald-400/10 text-emerald-300 flex items-center justify-center border border-emerald-400/20 shrink-0"><HeartPulse className="h-8 w-8 md:h-10 md:w-10" /></div>
@@ -704,14 +704,14 @@ export default function App() {
                       </div>
                       <div className="absolute bottom-6 md:bottom-8 left-8 md:left-10 right-8 md:right-10 flex items-center justify-between"><span className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest">Profissionais</span><span className="text-lg md:text-xl font-black text-emerald-400">{profissionais.filter(p => p.categoria === 'Linhas de Cuidado e Áreas Técnicas').length}</span></div>
                     </div>
-                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center min-h-[300px] md:min-h-[350px]">
+                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                       <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-indigo-400/10 text-indigo-300 flex items-center justify-center border border-indigo-400/20 shrink-0"><Landmark className="h-8 w-8 md:h-10 md:w-10" /></div>
                         <div className="flex flex-col items-center gap-2"><h4 className="text-base md:text-lg font-bold text-white/70 uppercase tracking-widest leading-tight">Direção</h4><p className="text-6xl md:text-7xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{profissionais.filter(p => p.categoria === 'Direção e Corpo Técnico').length}</p></div>
                       </div>
                     </div>
-                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center min-h-[300px] md:min-h-[350px]">
+                    <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-sky-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                       <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-sky-400/10 text-sky-300 flex items-center justify-center border border-cyan-400/20 shrink-0"><Building2 className="h-8 w-8 md:h-10 md:w-10" /></div>
@@ -727,9 +727,9 @@ export default function App() {
                     <div className="h-20 w-20 md:h-24 md:w-24 rounded-3xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center backdrop-blur-md border border-cyan-400/30 shadow-[0_0_30px_rgba(34,211,238,0.3)] mb-6 md:mb-8"><HeartPulse className="h-10 w-10 md:h-12 md:w-12" /></div>
                     <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">Linhas de Cuidado e Áreas Técnicas</h2>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 w-full">
+                  <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 px-4 w-full">
                     {Object.entries(linhasAgrupadas).map(([area, membros]) => (
-                      <div key={area} className="bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl relative overflow-hidden">
+                      <div key={area} className="break-inside-avoid mb-6 md:mb-8 bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                         <h3 className="text-xl md:text-2xl font-bold text-cyan-300 mb-6 md:mb-8 uppercase tracking-widest relative z-10">{area}</h3>
                         <div className="space-y-4 md:space-y-6 relative z-10">
@@ -758,9 +758,9 @@ export default function App() {
                     <div className="h-20 w-20 md:h-24 md:w-24 rounded-3xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center backdrop-blur-md border border-cyan-400/30 shadow-[0_0_30px_rgba(34,211,238,0.3)] mb-6 md:mb-8"><Landmark className="h-10 w-10 md:h-12 md:w-12" /></div>
                     <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">Direção e Corpo Técnico</h2>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center w-full px-4">
+                  <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 w-full px-4">
                     {direcao.map(p => (
-                      <div key={p.id} className="bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl flex flex-col items-center justify-center min-h-[350px] md:min-h-[420px] relative overflow-hidden group hover:bg-white/[0.08] transition-all">
+                      <div key={p.id} className="break-inside-avoid mb-6 md:mb-8 bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl flex flex-col items-center justify-center relative overflow-hidden group hover:bg-white/[0.08] transition-all">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                         <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6 relative z-10 w-full">
                           <div className="h-20 w-20 md:h-24 md:w-24 rounded-[20px] md:rounded-[24px] bg-cyan-400/10 text-cyan-300 flex items-center justify-center border border-cyan-400/20 shadow-inner shrink-0"><Briefcase className="h-8 w-8 md:h-10 md:w-10" /></div>
@@ -784,9 +784,9 @@ export default function App() {
                     <div className="h-20 w-20 md:h-24 md:w-24 rounded-3xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center backdrop-blur-md border border-cyan-400/30 shadow-[0_0_30px_rgba(34,211,238,0.3)] mb-6 md:mb-8"><Building2 className="h-10 w-10 md:h-12 md:w-12" /></div>
                     <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">Apoio Operacional e Administrativo</h2>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center w-full px-4">
+                  <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 w-full px-4">
                     {apoio.map(p => (
-                      <div key={p.id} className="bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl flex flex-col items-center justify-center min-h-[350px] md:min-h-[420px] relative overflow-hidden group hover:bg-white/[0.08] transition-all">
+                      <div key={p.id} className="break-inside-avoid mb-6 md:mb-8 bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl flex flex-col items-center justify-center relative overflow-hidden group hover:bg-white/[0.08] transition-all">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                         <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6 relative z-10 w-full">
                           <div className="h-20 w-20 md:h-24 md:w-24 rounded-[20px] md:rounded-[24px] bg-cyan-400/10 text-cyan-300 flex items-center justify-center border border-cyan-400/20 shadow-inner shrink-0"><Briefcase className="h-8 w-8 md:h-10 md:w-10" /></div>
