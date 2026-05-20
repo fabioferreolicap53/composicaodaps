@@ -691,14 +691,14 @@ export default function App() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 px-4">
                     <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
-                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
+                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6 pb-12">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-cyan-400/10 text-cyan-300 flex items-center justify-center border border-cyan-400/20 shrink-0"><Users className="h-8 w-8 md:h-10 md:w-10" /></div>
                         <div className="flex flex-col items-center gap-2"><h4 className="text-base md:text-lg font-bold text-white/70 uppercase tracking-widest">Total Geral</h4><p className="text-6xl md:text-7xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{profissionais.length}</p></div>
                       </div>
                     </div>
                     <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
-                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
+                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6 pb-12">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-emerald-400/10 text-emerald-300 flex items-center justify-center border border-emerald-400/20 shrink-0"><HeartPulse className="h-8 w-8 md:h-10 md:w-10" /></div>
                         <div className="flex flex-col items-center gap-2"><h4 className="text-base md:text-lg font-bold text-white/70 uppercase tracking-widest leading-tight">Total de Linhas</h4><p className="text-6xl md:text-7xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{Object.keys(linhasAgrupadas).length}</p></div>
                       </div>
@@ -706,14 +706,14 @@ export default function App() {
                     </div>
                     <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
-                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
+                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6 pb-12">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-indigo-400/10 text-indigo-300 flex items-center justify-center border border-indigo-400/20 shrink-0"><Landmark className="h-8 w-8 md:h-10 md:w-10" /></div>
                         <div className="flex flex-col items-center gap-2"><h4 className="text-base md:text-lg font-bold text-white/70 uppercase tracking-widest leading-tight">Direção</h4><p className="text-6xl md:text-7xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{profissionais.filter(p => p.categoria === 'Direção e Corpo Técnico').length}</p></div>
                       </div>
                     </div>
                     <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-sky-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
-                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6">
+                      <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6 pb-12">
                         <div className="h-16 w-16 md:h-20 md:w-20 rounded-2xl bg-sky-400/10 text-sky-300 flex items-center justify-center border border-cyan-400/20 shrink-0"><Building2 className="h-8 w-8 md:h-10 md:w-10" /></div>
                         <div className="flex flex-col items-center gap-2"><h4 className="text-base md:text-lg font-bold text-white/70 uppercase tracking-widest leading-tight">Apoio</h4><p className="text-6xl md:text-7xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{profissionais.filter(p => p.categoria === 'Apoio Operacional e Administrativo').length}</p></div>
                       </div>
