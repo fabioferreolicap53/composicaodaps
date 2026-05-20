@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-label-md: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg-mobile: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body-sm: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body-lg: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-headline-md: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-surface: #f7f9fb;
+  --color-on-primary: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-secondary-fixed-variant: #004c69;
+  --color-outline: #74777f;
+  --color-on-surface: #191c1e;
+  --color-surface-tint: #465f88;
+  --color-inverse-on-surface: #eff1f3;
+  --color-inverse-surface: #2d3133;
+  --color-outline-variant: #c4c6cf;
+  --color-on-tertiary: #ffffff;
+  --color-on-secondary-container: #004d6a;
+  --color-surface-container-high: #e6e8ea;
+  --color-surface-dim: #d8dadc;
+  --color-secondary: #00668a;
+  --color-primary-container: #002147;
+  --color-surface-container: #eceef0;
+  --color-on-tertiary-fixed: #0b1c30;
+  --color-secondary-fixed-dim: #7bd0ff;
+  --color-on-error: #ffffff;
+  --color-surface-bright: #f7f9fb;
+  --color-on-surface-variant: #44474e;
+  --color-inverse-primary: #aec7f6;
+  --color-primary-fixed: #d6e3ff;
+  --color-error: #ba1a1a;
+  --color-secondary-container: #40c2fd;
+  --color-on-primary-container: #708ab5;
+  --color-on-primary-fixed-variant: #2d476f;
+  --color-surface-container-low: #f2f4f6;
+  --color-on-error-container: #93000a;
+  --color-tertiary: #000b1b;
+  --color-error-container: #ffdad6;
+  --color-on-secondary: #ffffff;
+  --color-secondary-fixed: #c4e7ff;
+  --color-surface-variant: #e0e3e5;
+  --color-primary-fixed-dim: #aec7f6;
+  --color-on-background: #191c1e;
+  --color-on-secondary-fixed: #001e2c;
+  --color-surface-container-highest: #e0e3e5;
+  --color-background: #f7f9fb;
+  --color-tertiary-fixed-dim: #b7c8e1;
+  --color-on-tertiary-container: #7a8aa2;
+  --color-tertiary-fixed: #d3e4fe;
+  --color-primary: #000a1e;
+  --color-tertiary-container: #122236;
+  --color-on-tertiary-fixed-variant: #38485d;
+  --color-on-primary-fixed: #001b3d;
+}
+
+@media print {
+  body {
+      background-color: white !important;
+      color: black !important;
+  }
+  .shadow-sm, .shadow-md, .shadow-lg, .shadow-\[0_8px_30px_rgb\(0\,33\,71\,0\.06\)\] {
+      box-shadow: none !important;
+  }
+  .bg-surface, .bg-surface-container-lowest, .bg-primary-container, .bg-secondary-container, .bg-gradient-to-br, .bg-surface-container-low {
+      background-color: transparent !important;
+      background-image: none !important;
+  }
+  * {
+      color: black !important;
+      border-color: #ccc !important;
+  }
+  .print-border {
+      border: 1px solid #ccc !important;
+  }
+  .grid {
+      display: block;
+  }
+  .grid > div {
+      margin-bottom: 20px;
+      page-break-inside: avoid;
+  }
+}
