@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Plus, 
   Users, 
@@ -55,6 +55,8 @@ export default function App() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [presentationStep, setPresentationStep] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const presentationRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
@@ -98,8 +100,10 @@ export default function App() {
 
       if (e.key === 'ArrowRight') {
         setPresentationStep(prev => Math.min(5, prev + 1));
+        presentationRef.current?.scrollTo({ top: 0 });
       } else if (e.key === 'ArrowLeft') {
         setPresentationStep(prev => Math.max(1, prev - 1));
+        presentationRef.current?.scrollTo({ top: 0 });
       } else if (e.key === 'Escape') {
         setPresentationStep(0);
       }
@@ -113,6 +117,14 @@ export default function App() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const handlePresentationScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    setShowScrollTop(e.currentTarget.scrollTop > 400);
+  };
+
+  const scrollToTop = () => {
+    presentationRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const loadData = async () => {
     setIsLoading(true);
@@ -749,7 +761,11 @@ export default function App() {
       )}
 
       {presentationStep > 0 && (
-        <div className="fixed inset-0 z-[300] bg-[#001b3d] overflow-y-auto overflow-x-hidden flex flex-col items-center p-4 sm:p-6 md:p-10 animate-in fade-in duration-300">
+        <div 
+          ref={presentationRef}
+          onScroll={handlePresentationScroll}
+          className="fixed inset-0 z-[300] bg-[#001b3d] overflow-y-auto overflow-x-hidden flex flex-col items-center p-4 sm:p-6 md:p-10 animate-in fade-in duration-300"
+        >
           <div className="fixed inset-0 pointer-events-none overflow-hidden">
             <div className="absolute top-[-10%] right-[-10%] w-[400px] sm:w-[600px] md:w-[800px] h-[400px] sm:h-[600px] md:h-[800px] bg-cyan-400/5 rounded-full blur-[100px] md:blur-[150px]" />
             <div className="absolute bottom-[-10%] left-[-10%] w-[300px] sm:w-[500px] md:w-[700px] h-[300px] sm:h-[500px] md:h-[700px] bg-blue-600/5 rounded-full blur-[80px] md:blur-[120px]" />
@@ -931,16 +947,27 @@ export default function App() {
               )}
             </div>
             <div className="h-24 border-t border-white/10 flex items-center justify-between px-10 bg-black/20 backdrop-blur-xl">
-              <button onClick={() => setPresentationStep(prev => Math.max(1, prev - 1))} className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm transition-all ${presentationStep === 1 ? 'opacity-30 cursor-not-allowed text-white/50' : 'hover:bg-white/10 text-cyan-300 hover:text-cyan-200'}`} disabled={presentationStep === 1}><ChevronLeft className="h-5 w-5" /> Anterior</button>
+              <button onClick={() => { setPresentationStep(prev => Math.max(1, prev - 1)); presentationRef.current?.scrollTo({ top: 0 }); }} className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm transition-all ${presentationStep === 1 ? 'opacity-30 cursor-not-allowed text-white/50' : 'hover:bg-white/10 text-cyan-300 hover:text-cyan-200'}`} disabled={presentationStep === 1}><ChevronLeft className="h-5 w-5" /> Anterior</button>
               <div className="flex gap-4">
-                {[1, 2, 3, 4].map(step => (
-                  <button key={step} onClick={() => setPresentationStep(step)} className={`h-3 w-12 rounded-full transition-all duration-300 ${presentationStep === step ? 'bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.6)] w-20' : 'bg-white/10 hover:bg-white/30'}`} />
+                {[1, 2, 3, 4, 5].map(step => (
+                  <button key={step} onClick={() => { setPresentationStep(step); presentationRef.current?.scrollTo({ top: 0 }); }} className={`h-3 w-12 rounded-full transition-all duration-300 ${presentationStep === step ? 'bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.6)] w-20' : 'bg-white/10 hover:bg-white/30'}`} />
                 ))}
               </div>
-              <button onClick={() => setPresentationStep(prev => Math.min(4, prev + 1))} className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm transition-all ${presentationStep === 4 ? 'opacity-30 cursor-not-allowed text-white/50' : 'hover:bg-white/10 text-cyan-300 hover:text-cyan-200'}`} disabled={presentationStep === 4}>Próximo <ChevronRight className="h-5 w-5" /></button>
+              <button onClick={() => { setPresentationStep(prev => Math.min(5, prev + 1)); presentationRef.current?.scrollTo({ top: 0 }); }} className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm transition-all ${presentationStep === 5 ? 'opacity-30 cursor-not-allowed text-white/50' : 'hover:bg-white/10 text-cyan-300 hover:text-cyan-200'}`} disabled={presentationStep === 5}>Próximo <ChevronRight className="h-5 w-5" /></button>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Botão Flutuante Voltar ao Topo (Apenas na Apresentação) */}
+      {presentationStep > 0 && showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-32 right-8 z-[310] h-14 w-14 bg-cyan-400 text-[#001b3d] rounded-full shadow-[0_0_30px_rgba(34,211,238,0.5)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all animate-in fade-in zoom-in duration-300"
+          aria-label="Voltar ao topo"
+        >
+          <ArrowUp className="h-6 w-6 font-bold" />
+        </button>
       )}
     </div>
   );
