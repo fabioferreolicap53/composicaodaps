@@ -277,8 +277,8 @@ export default function App() {
       const nomeB = (b.nome || '').toLowerCase();
       if (nomeA.includes('simere')) return -1;
       if (nomeB.includes('simere')) return 1;
-      if (nomeA.includes('ana paula')) return 1;
-      if (nomeB.includes('ana paula')) return -1;
+      if (nomeA.includes('hauat')) return 1;
+      if (nomeB.includes('hauat')) return -1;
       return 0;
     });
   const linhas = filteredProfissionais.filter(p => p.categoria === 'Linhas de Cuidado e Áreas Técnicas');
@@ -901,9 +901,9 @@ export default function App() {
                     <div className="h-20 w-20 md:h-24 md:w-24 rounded-3xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center backdrop-blur-md border border-cyan-400/30 shadow-[0_0_30px_rgba(34,211,238,0.3)] mb-6 md:mb-8"><Landmark className="h-10 w-10 md:h-12 md:w-12" /></div>
                     <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">Direção e Corpo Técnico</h2>
                   </div>
-                  <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 w-full px-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full px-4">
                     {direcao.map(p => (
-                      <div key={p.id} className="break-inside-avoid mb-6 md:mb-8 bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl flex flex-col items-center justify-center relative overflow-hidden group hover:bg-white/[0.08] transition-all">
+                      <div key={p.id} className="bg-white/5 rounded-[24px] md:rounded-[32px] p-6 md:p-8 border border-cyan-400/20 backdrop-blur-md shadow-2xl flex flex-col items-center justify-center relative overflow-hidden group hover:bg-white/[0.08] transition-all">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full -mr-16 -mt-16 blur-3xl" />
                         <div className="flex-1 flex flex-col items-center justify-center gap-4 md:gap-6 relative z-10 w-full">
                           <div className="h-20 w-20 md:h-24 md:w-24 rounded-[20px] md:rounded-[24px] bg-cyan-400/10 text-cyan-300 flex items-center justify-center border border-cyan-400/20 shadow-inner shrink-0"><Briefcase className="h-8 w-8 md:h-10 md:w-10" /></div>
