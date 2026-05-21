@@ -21,7 +21,8 @@ import {
   BarChart3,
   Eye,
   EyeOff,
-  UserPlus
+  UserPlus,
+  ArrowUp
 } from 'lucide-react';
 import pb, { authenticate } from './lib/pocketbase';
 
