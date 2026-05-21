@@ -138,6 +138,12 @@ export default function App() {
     }
   };
 
+  const getWhatsAppLink = (phone: string) => {
+    const cleanNumber = phone.replace(/\D/g, '');
+    const fullNumber = cleanNumber.length <= 11 ? `55${cleanNumber}` : cleanNumber;
+    return `https://api.whatsapp.com/send?phone=${fullNumber}`;
+  };
+
   const loadData = async () => {
     setIsLoading(true);
     try {
@@ -415,10 +421,15 @@ export default function App() {
                                 </div>
                                 <div className="space-y-3 text-sm text-white/70 print:text-gray-700">
                                   {p.telefone && (
-                                    <div className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5">
-                                      <Phone className="h-4 w-4 text-secondary/60" /> 
-                                      <span className="font-medium">{p.telefone}</span>
-                                    </div>
+                                    <a 
+                                      href={getWhatsAppLink(p.telefone)}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-3 bg-white/5 p-2 rounded-xl border border-white/5 hover:bg-cyan-400/10 hover:border-cyan-400/30 transition-all group/phone"
+                                    >
+                                      <Phone className="h-4 w-4 text-secondary/60 group-hover/phone:text-cyan-400" /> 
+                                      <span className="font-medium group-hover/phone:text-cyan-300">{p.telefone}</span>
+                                    </a>
                                   )}
                                   {p.email && (
                                     <div className="flex flex-col gap-1.5 px-2">
@@ -488,7 +499,14 @@ export default function App() {
                           )}
                           <div className="flex flex-col gap-1.5 pt-1">
                             {p.telefone && (
-                              <p className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"><Phone className="h-3 w-3 text-cyan-400/60 shrink-0" /> {p.telefone}</p>
+                              <a 
+                                href={getWhatsAppLink(p.telefone)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 opacity-80 hover:opacity-100 hover:text-cyan-300 transition-opacity"
+                              >
+                                <Phone className="h-3 w-3 text-cyan-400/60 shrink-0" /> {p.telefone}
+                              </a>
                             )}
                             {p.email && p.email.split(',').map((e, i) => e.trim() && (
                               <p key={i} className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"><Mail className="h-3 w-3 text-cyan-400/60 shrink-0" /> <span className="truncate">{e.trim()}</span></p>
@@ -526,7 +544,14 @@ export default function App() {
                           )}
                           <div className="flex flex-col gap-1.5 pt-1">
                             {p.telefone && (
-                              <p className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"><Phone className="h-3 w-3 text-cyan-400/60 shrink-0" /> {p.telefone}</p>
+                              <a 
+                                href={getWhatsAppLink(p.telefone)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 opacity-80 hover:opacity-100 hover:text-cyan-300 transition-opacity"
+                              >
+                                <Phone className="h-3 w-3 text-cyan-400/60 shrink-0" /> {p.telefone}
+                              </a>
                             )}
                             {p.email && p.email.split(',').map((e, i) => e.trim() && (
                               <p key={i} className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"><Mail className="h-3 w-3 text-cyan-400/60 shrink-0" /> <span className="truncate">{e.trim()}</span></p>
@@ -847,7 +872,16 @@ export default function App() {
                               <div className="flex-1 min-w-0">
                                 <p className="text-lg md:text-xl font-bold text-white truncate">{p.nome}</p>
                                 <div className="flex flex-col gap-1.5 md:gap-2 mt-2 text-xs md:text-sm text-cyan-100/70">
-                                  {p.telefone && <span className="flex items-center gap-1.5"><Phone className="h-3 w-3 shrink-0" /> {p.telefone}</span>}
+                                  {p.telefone && (
+                                    <a 
+                                      href={getWhatsAppLink(p.telefone)}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors"
+                                    >
+                                      <Phone className="h-3 w-3 shrink-0" /> {p.telefone}
+                                    </a>
+                                  )}
                                   {p.email && p.email.split(',').map((e, i) => e.trim() && (
                                     <span key={i} className="flex items-center gap-1.5 truncate"><Mail className="h-3 w-3 shrink-0" /> {e.trim()}</span>
                                   ))}
@@ -877,7 +911,16 @@ export default function App() {
                             <h3 className="text-xl md:text-2xl font-bold text-white text-center">{p.nome}</h3>
                             {p.funcao && <p className="text-cyan-300 font-black uppercase tracking-widest text-[10px] md:text-sm bg-cyan-400/10 py-1 md:py-1.5 px-3 md:px-4 rounded-lg inline-block border border-cyan-400/10">{p.funcao}</p>}
                             <div className="space-y-2 md:space-y-3 text-xs md:text-sm text-cyan-100/60 w-full pt-4 border-t border-white/5 mt-2">
-                              {p.telefone && <p className="flex items-center justify-center gap-2"><Phone className="h-3 w-3 md:h-4 md:w-4 shrink-0 text-cyan-400/50" /> {p.telefone}</p>}
+                              {p.telefone && (
+                                <a 
+                                  href={getWhatsAppLink(p.telefone)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center justify-center gap-2 hover:text-cyan-400 transition-colors"
+                                >
+                                  <Phone className="h-3 w-3 md:h-4 md:w-4 shrink-0 text-cyan-400/50" /> {p.telefone}
+                                </a>
+                              )}
                               {p.email && p.email.split(',').map((e, i) => e.trim() && <p key={i} className="flex items-center justify-center gap-2 truncate px-4"><Mail className="h-4 w-4 shrink-0 text-cyan-400/50" /> {e.trim()}</p>)}
                             </div>
                           </div>
@@ -917,7 +960,7 @@ export default function App() {
                             {/* Quantidade de Profissionais */}
                             <div className="ml-12 md:ml-20 flex items-center gap-8 relative z-10">
                               <span className="text-6xl md:text-8xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">{membros.length}</span>
-                              <div className="flex flex-col">
+                              <div className="hidden md:flex flex-col">
                                 <span className="text-sm md:text-xl font-bold text-cyan-300 uppercase tracking-[0.2em]">
                                   {membros.length === 1 ? 'Profissional' : 'Profissionais'}
                                 </span>
@@ -947,7 +990,16 @@ export default function App() {
                             <h3 className="text-xl md:text-2xl font-bold text-white text-center">{p.nome}</h3>
                             {p.funcao && <p className="text-cyan-300 font-black uppercase tracking-widest text-[10px] md:text-sm bg-cyan-400/10 py-1 md:py-1.5 px-3 md:px-4 rounded-lg inline-block border border-cyan-400/10">{p.funcao}</p>}
                             <div className="space-y-2 md:space-y-3 text-xs md:text-sm text-cyan-100/60 w-full pt-4 border-t border-white/5 mt-2">
-                              {p.telefone && <p className="flex items-center justify-center gap-2"><Phone className="h-3 w-3 md:h-4 md:w-4 shrink-0 text-cyan-400/50" /> {p.telefone}</p>}
+                              {p.telefone && (
+                                <a 
+                                  href={getWhatsAppLink(p.telefone)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center justify-center gap-2 hover:text-cyan-400 transition-colors"
+                                >
+                                  <Phone className="h-3 w-3 md:h-4 md:w-4 shrink-0 text-cyan-400/50" /> {p.telefone}
+                                </a>
+                              )}
                               {p.email && p.email.split(',').map((e, i) => e.trim() && <p key={i} className="flex items-center justify-center gap-2 truncate px-4"><Mail className="h-4 w-4 shrink-0 text-cyan-400/50" /> {e.trim()}</p>)}
                             </div>
                           </div>
