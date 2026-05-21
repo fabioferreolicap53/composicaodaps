@@ -117,14 +117,25 @@ export default function App() {
   // Initial Load
   useEffect(() => {
     loadData();
-  }, []);
+    const handleGlobalScroll = () => {
+      if (presentationStep === 0) {
+        setShowScrollTop(window.scrollY > 400);
+      }
+    };
+    window.addEventListener('scroll', handleGlobalScroll);
+    return () => window.removeEventListener('scroll', handleGlobalScroll);
+  }, [presentationStep]);
 
   const handlePresentationScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setShowScrollTop(e.currentTarget.scrollTop > 400);
   };
 
   const scrollToTop = () => {
-    presentationRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    if (presentationStep > 0) {
+      presentationRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const loadData = async () => {
@@ -550,7 +561,7 @@ export default function App() {
                       
                       {/* Círculo com Nome da Área */}
                       <div className="h-20 w-20 md:h-24 md:w-24 shrink-0 rounded-full bg-cyan-400/10 border-2 border-cyan-400/30 flex items-center justify-center text-center p-2 backdrop-blur-md shadow-lg group-hover/item:border-cyan-400/60 group-hover/item:bg-cyan-400/20 transition-all z-20 relative">
-                        <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-tighter leading-tight">{area}</span>
+                        <span className="text-[10px] md:text-[12px] font-black text-white uppercase tracking-tighter leading-tight">{area}</span>
                       </div>
 
                       {/* Quantidade de Profissionais */}
@@ -900,7 +911,7 @@ export default function App() {
                             {/* Círculo com Nome da Área - Tamanho Máximo */}
                             <div className="h-32 w-32 md:h-44 md:w-44 shrink-0 rounded-full bg-[#001b3d] border-[3px] border-cyan-400/30 flex items-center justify-center text-center p-5 backdrop-blur-md shadow-2xl group-hover/item:border-cyan-400/60 group-hover/item:shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-all z-10 relative">
                               <div className="absolute inset-0 rounded-full bg-cyan-400/5" />
-                              <span className="text-xs md:text-sm font-black text-white uppercase tracking-tighter leading-tight relative z-10">{area}</span>
+                              <span className="text-[12px] md:text-lg font-black text-white uppercase tracking-tight leading-tight relative z-10 px-1">{area}</span>
                             </div>
 
                             {/* Quantidade de Profissionais */}
@@ -910,7 +921,7 @@ export default function App() {
                                 <span className="text-sm md:text-xl font-bold text-cyan-300 uppercase tracking-[0.2em]">
                                   {membros.length === 1 ? 'Profissional' : 'Profissionais'}
                                 </span>
-                                <span className="text-xs md:text-sm text-white/40 uppercase tracking-widest mt-1">Atuando na área</span>
+                                <span className="text-xs md:text-sm text-white/40 uppercase tracking-widest mt-1">Atuando</span>
                               </div>
                             </div>
                           </div>
@@ -960,11 +971,11 @@ export default function App() {
         </div>
       )}
 
-      {/* Botão Flutuante Voltar ao Topo (Apenas na Apresentação) */}
-      {presentationStep > 0 && showScrollTop && (
+      {/* Botão Flutuante Voltar ao Topo (Página Principal e Apresentação) */}
+      {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-32 right-8 z-[310] h-14 w-14 bg-cyan-400 text-[#001b3d] rounded-full shadow-[0_0_30px_rgba(34,211,238,0.5)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all animate-in fade-in zoom-in duration-300"
+          className={`fixed bottom-32 right-8 h-14 w-14 bg-cyan-400 text-[#001b3d] rounded-full shadow-[0_0_30px_rgba(34,211,238,0.5)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all animate-in fade-in zoom-in duration-300 ${presentationStep > 0 ? 'z-[310]' : 'z-[100]'}`}
           aria-label="Voltar ao topo"
         >
           <ArrowUp className="h-6 w-6 font-bold" />
