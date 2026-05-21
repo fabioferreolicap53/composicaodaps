@@ -297,12 +297,42 @@ export default function App() {
     return acc;
   }, {} as Record<string, Profissional[]>);
 
-  const coresHarmonicas = [
-    'from-cyan-400/20 to-transparent border-cyan-400/50 text-white',
-    'from-indigo-400/20 to-transparent border-indigo-400/50 text-white',
-    'from-emerald-400/20 to-transparent border-emerald-400/50 text-white',
-    'from-sky-400/20 to-transparent border-sky-400/50 text-white',
-    'from-violet-400/20 to-transparent border-violet-400/50 text-white',
+  const colorSchemes = [
+    { 
+      bg: 'from-cyan-500/20 via-cyan-500/5 to-transparent', 
+      border: 'border-cyan-400/40', 
+      accent: 'bg-cyan-400', 
+      text: 'text-cyan-50',
+      glow: 'shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+    },
+    { 
+      bg: 'from-indigo-500/20 via-indigo-500/5 to-transparent', 
+      border: 'border-indigo-400/40', 
+      accent: 'bg-indigo-400', 
+      text: 'text-indigo-50',
+      glow: 'shadow-[0_0_20px_rgba(129,140,248,0.2)]'
+    },
+    { 
+      bg: 'from-emerald-500/20 via-emerald-500/5 to-transparent', 
+      border: 'border-emerald-400/40', 
+      accent: 'bg-emerald-400', 
+      text: 'text-emerald-50',
+      glow: 'shadow-[0_0_20px_rgba(52,211,153,0.2)]'
+    },
+    { 
+      bg: 'from-violet-500/20 via-violet-500/5 to-transparent', 
+      border: 'border-violet-400/40', 
+      accent: 'bg-violet-400', 
+      text: 'text-violet-50',
+      glow: 'shadow-[0_0_20px_rgba(167,139,250,0.2)]'
+    },
+    { 
+      bg: 'from-sky-500/20 via-sky-500/5 to-transparent', 
+      border: 'border-sky-400/40', 
+      accent: 'bg-sky-400', 
+      text: 'text-sky-50',
+      glow: 'shadow-[0_0_20px_rgba(56,189,248,0.2)]'
+    },
   ];
 
   return (
@@ -400,13 +430,22 @@ export default function App() {
 
                   <div className="space-y-12">
                     {Object.entries(linhasAgrupadas).map(([area, membros], index) => {
-                      const colorClass = coresHarmonicas[index % coresHarmonicas.length];
+                      const scheme = colorSchemes[index % colorSchemes.length];
                       return (
                         <div key={area} className="space-y-6">
-                          <div className={`flex items-center gap-4 py-4 border-l-4 ${colorClass.split(' ')[2]} bg-gradient-to-r ${colorClass.split(' ').slice(0,2).join(' ')} pl-6 pr-10 shadow-xl backdrop-blur-md relative overflow-hidden group`}>
-                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className={`h-3 w-3 bg-current shadow-[0_0_15px_rgba(255,255,255,0.5)] animate-pulse`} />
-                            <h4 className="text-lg font-black uppercase tracking-[0.4em] leading-none text-white drop-shadow-md">{area}</h4>
+                          <div className={`flex items-center gap-4 py-5 border-l-4 ${scheme.border} bg-gradient-to-r ${scheme.bg} pl-6 pr-10 shadow-2xl backdrop-blur-xl relative overflow-hidden group rounded-r-2xl transition-all hover:pl-8`}>
+                            {/* Decorative element: Light streak */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                            
+                            {/* Animated indicator */}
+                            <div className={`h-3 w-3 rounded-full ${scheme.accent} ${scheme.glow} animate-pulse shrink-0`} />
+                            
+                            <h4 className={`text-xl font-black uppercase tracking-[0.3em] leading-none ${scheme.text} drop-shadow-lg transition-all group-hover:tracking-[0.4em]`}>
+                              {area}
+                            </h4>
+
+                            {/* Right side decoration */}
+                            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/5 to-transparent pointer-events-none" />
                           </div>
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ml-2">
