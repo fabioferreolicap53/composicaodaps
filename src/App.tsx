@@ -288,7 +288,7 @@ export default function App() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
         
-        <div className="max-w-[1440px] mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 py-4 md:py-0">
+        <div className="max-w-[1440px] mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 py-4 md:py-0 px-4 md:px-10">
           <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto">
             <div className="h-10 w-10 md:h-12 md:w-12 bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 flex items-center justify-center rounded-xl shadow-inner backdrop-blur-sm shrink-0">
               <ActivitySquare className="h-5 w-5 md:h-6 md:w-6" />
@@ -299,8 +299,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* Search Bar no Header - Alinhada com a Coluna da Direita */}
-          <div className="relative group w-full lg:w-[calc(33.333333%-21.333333px)] md:w-[320px]">
+          {/* Search Bar no Header - Alinhada com a Coluna da Direita (lg:col-span-1) */}
+          <div className="relative group w-full lg:w-[calc(33.333333%-21.333333px)]">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-cyan-300/40 group-focus-within:text-cyan-400 transition-colors" />
             </div>
