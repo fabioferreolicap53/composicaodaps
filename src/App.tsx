@@ -55,6 +55,33 @@ export default function App() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [presentationStep, setPresentationStep] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Swipe logic
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      setPresentationStep(prev => Math.min(5, prev + 1));
+    } else if (isRightSwipe) {
+      setPresentationStep(prev => Math.max(1, prev - 1));
+    }
+  };
 
   // Form states
   const [nome, setNome] = useState('');
@@ -70,7 +97,7 @@ export default function App() {
       if (presentationStep === 0) return;
 
       if (e.key === 'ArrowRight') {
-        setPresentationStep(prev => Math.min(4, prev + 1));
+        setPresentationStep(prev => Math.min(5, prev + 1));
       } else if (e.key === 'ArrowLeft') {
         setPresentationStep(prev => Math.max(1, prev - 1));
       } else if (e.key === 'Escape') {
@@ -249,22 +276,49 @@ export default function App() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen text-on-surface bg-background font-sans selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+    <div 
+      className="flex flex-col min-h-screen text-on-surface bg-background font-sans selection:bg-secondary-fixed selection:text-on-secondary-fixed"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {/* Premium Header */}
-      <header className={`${presentationStep > 0 ? 'hidden' : 'flex'} sticky top-0 z-[100] bg-gradient-to-r from-[#001b3d] to-[#002b5c] border-b border-cyan-400/20 shadow-[0_4px_30px_rgba(0,0,0,0.3)] justify-between items-center w-full px-4 md:px-10 h-20 shrink-0 print:hidden overflow-hidden`}>
+      <header className={`${presentationStep > 0 ? 'hidden' : 'flex'} sticky top-0 z-[100] bg-gradient-to-r from-[#001b3d] to-[#002b5c] border-b border-cyan-400/20 shadow-[0_4px_30px_rgba(0,0,0,0.3)] justify-between items-center w-full px-4 md:px-10 min-h-20 md:h-20 shrink-0 print:hidden overflow-hidden`}>
         {/* Glow Effects */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
         
         <div className="max-w-[1440px] mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 relative z-10 py-4 md:py-0">
-          <div className="flex items-center gap-3 md:gap-4">
-            <div className="h-10 w-10 md:h-12 md:w-12 bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 flex items-center justify-center rounded-xl shadow-inner backdrop-blur-sm">
+          <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto">
+            <div className="h-10 w-10 md:h-12 md:w-12 bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 flex items-center justify-center rounded-xl shadow-inner backdrop-blur-sm shrink-0">
               <ActivitySquare className="h-5 w-5 md:h-6 md:w-6" />
             </div>
             <div className="flex flex-col">
               <h1 className="text-xl md:text-2xl font-black text-white leading-none tracking-widest drop-shadow-md uppercase">DAPS CAP5.3</h1>
               <span className="text-[8px] md:text-[10px] text-cyan-300/80 font-bold uppercase tracking-[0.2em] mt-1">Divisão de Ações e Programas de Saúde</span>
             </div>
+          </div>
+
+          {/* Search Bar no Header - Alinhada com a Coluna da Direita */}
+          <div className="relative group w-full lg:w-[calc(33.333333%-21.333333px)] md:w-[320px]">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-cyan-300/40 group-focus-within:text-cyan-400 transition-colors" />
+            </div>
+            <input
+              type="text"
+              placeholder="Pesquisar profissionais, áreas..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="block w-full pl-10 pr-10 h-10 border border-white/10 rounded-xl leading-5 bg-white/5 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 focus:border-cyan-400/40 transition-all text-xs"
+            />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/20 hover:text-cyan-400 transition-colors"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -279,16 +333,28 @@ export default function App() {
               </div>
             </div>
           )}
+          {/* Mobile Buttons Layout (Apenas Mobile/Tablet) conforme imagem */}
+          <div className="flex lg:hidden gap-4 mb-8 print:hidden">
+            <button 
+              className="flex-1 h-16 flex items-center justify-center rounded-2xl bg-[#001b3d] border border-cyan-400/20 text-white hover:bg-[#002b5c] hover:border-cyan-400/40 transition-all gap-2 group active:scale-[0.98] shadow-lg" 
+              onClick={() => setPresentationStep(1)}
+            >
+              <Projector className="h-5 w-5 text-cyan-400 shrink-0" />
+              <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Apresentação</span>
+            </button>
+            <button 
+              className="flex-1 h-16 flex items-center justify-center rounded-2xl bg-[#001b3d] border border-cyan-400/20 text-white hover:bg-[#002b5c] hover:border-cyan-400/40 transition-all gap-2 group active:scale-[0.98] shadow-lg" 
+              onClick={handleOpenAddModal}
+            >
+              <UserPlus className="h-5 w-5 text-cyan-400 shrink-0" />
+              <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Novo Profissional</span>
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
             {/* Coluna Principal: Linhas de Cuidado (2 colunas de largura) */}
             <div className="lg:col-span-2 space-y-8">
-              {/* Título da Página conforme Imagem */}
-              <div className="mb-6">
-                <h2 className="text-3xl md:text-5xl font-bold text-primary tracking-tight">DAPS CAP5.3</h2>
-                <p className="text-lg md:text-xl text-on-surface-variant font-semibold mt-1">Divisão de Ações e Programas de Saúde</p>
-              </div>
-
               {/* Linhas de Cuidado e Áreas Técnicas Agrupadas */}
               {Object.keys(linhasAgrupadas).length > 0 && (
                 <section className="bg-gradient-to-br from-[#001b3d] to-[#002b5c] rounded-[32px] p-8 shadow-xl relative overflow-hidden print:bg-white print:text-black print:border print:border-gray-200 min-h-[600px]">
@@ -353,30 +419,8 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-1 flex flex-col gap-8">
-              {/* Controles: Busca e Botões conforme Imagem */}
-              <div className="flex flex-col gap-4 print:hidden">
-                {/* Search Bar */}
-                <div className="relative group w-full">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-on-surface-variant/50 group-focus-within:text-primary transition-colors" />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Pesquisar profissionais, áreas..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="block w-full pl-12 pr-4 h-14 border border-outline-variant/60 rounded-2xl leading-5 bg-surface text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container transition-all text-sm shadow-sm"
-                  />
-                  {searchTerm && (
-                    <button 
-                      onClick={() => setSearchTerm('')}
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant/50 hover:text-primary transition-colors"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-                
+              {/* Controles: Botões conforme Imagem - Apenas Desktop */}
+              <div className="hidden lg:flex flex-col gap-4 print:hidden">
                 <div className="flex gap-4">
                   <button 
                     className="flex-1 h-14 flex items-center justify-center rounded-2xl bg-[#001b3d] border border-cyan-400/20 text-white hover:bg-[#002b5c] hover:border-cyan-400/40 transition-all gap-2 group active:scale-[0.98] shadow-sm" 
@@ -470,6 +514,43 @@ export default function App() {
                   </div>
                 </section>
               )}
+
+              {/* Nova Seção: Linhas de Cuidado em Números */}
+              <section className="bg-gradient-to-br from-[#002b5c] to-[#001b3d] rounded-[32px] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden border border-white/10 print:bg-white print:text-black print:border print:border-gray-200 group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-white/10 transition-colors" />
+                <div className="flex items-center gap-3 mb-8 relative z-10">
+                  <div className="h-12 w-12 md:h-16 md:w-16 shrink-0 rounded-2xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center backdrop-blur-md border border-cyan-400/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
+                    <div className="h-6 w-6 md:h-8 md:w-8 bg-cyan-400 rounded-lg opacity-80" />
+                  </div>
+                  <h3 className="text-sm md:text-base font-black text-white tracking-widest uppercase border-b-2 border-cyan-400/50 pb-1 w-fit">
+                    Linhas de Cuidado e Áreas Técnicas em números de profissionais
+                  </h3>
+                </div>
+
+                <div className="space-y-0 relative z-10 px-4 md:px-8 flex flex-col items-start">
+                  {Object.entries(linhasAgrupadas).map(([area, membros], index, array) => (
+                    <div key={area} className="relative flex items-center group/item py-6 w-full">
+                      {/* Linha Vertical Conectora - Centralizada no Círculo */}
+                      {index < array.length - 1 && (
+                        <div className="absolute left-[40px] md:left-[48px] top-[60px] bottom-[-24px] w-[2px] bg-white/20 -translate-x-1/2" />
+                      )}
+                      
+                      {/* Círculo com Nome da Área */}
+                      <div className="h-20 w-20 md:h-24 md:w-24 shrink-0 rounded-full bg-cyan-400/10 border-2 border-cyan-400/30 flex items-center justify-center text-center p-2 backdrop-blur-md shadow-lg group-hover/item:border-cyan-400/60 group-hover/item:bg-cyan-400/20 transition-all z-20 relative">
+                        <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-tighter leading-tight">{area}</span>
+                      </div>
+
+                      {/* Quantidade de Profissionais */}
+                      <div className="ml-8 md:ml-12 flex items-center gap-3">
+                        <span className="text-xl md:text-2xl font-black text-white drop-shadow-md">{membros.length}</span>
+                        <span className="text-xs md:text-sm font-bold text-white/60 uppercase tracking-widest">
+                          {membros.length === 1 ? 'Profissional' : 'Profissionais'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
             </div>
           </div>
 
@@ -686,7 +767,7 @@ export default function App() {
                 <div className="w-full max-w-7xl animate-in slide-in-from-right-10 fade-in duration-500 py-10">
                   <div className="flex flex-col items-center justify-center mb-10 md:mb-16">
                     <div className="h-20 w-20 md:h-24 md:w-24 rounded-3xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-cyan-300 flex items-center justify-center backdrop-blur-md border border-cyan-400/30 shadow-[0_0_30px_rgba(34,211,238,0.3)] mb-6 md:mb-8"><BarChart3 className="h-10 w-10 md:h-12 md:w-12" /></div>
-                    <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">Consolidado</h2>
+                    <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">RESUMO GERAL</h2>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 px-4">
                     <div className="bg-white/5 rounded-[32px] md:rounded-[40px] p-8 md:p-10 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl flex flex-col items-center justify-center py-10">
@@ -775,6 +856,50 @@ export default function App() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+              {presentationStep === 5 && (
+                <div className="w-full max-w-7xl animate-in slide-in-from-right-10 fade-in duration-500 py-10 flex flex-col items-center justify-center">
+                  <div className="flex flex-col items-center justify-center mb-10 md:mb-16">
+                    <div className="h-20 w-20 md:h-24 md:w-24 rounded-3xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center backdrop-blur-md border border-cyan-400/30 shadow-[0_0_30px_rgba(34,211,238,0.3)] mb-6 md:mb-8">
+                      <BarChart3 className="h-10 w-10 md:h-12 md:w-12" />
+                    </div>
+                    <h2 className="text-3xl md:text-5xl font-black text-center text-white tracking-widest uppercase border-b-4 border-cyan-400/50 pb-4">Linhas em Números</h2>
+                  </div>
+                  
+                  <div className="w-full max-w-4xl px-4 flex justify-center">
+                    <div className="bg-white/5 rounded-[40px] p-8 md:p-12 border border-white/10 backdrop-blur-xl relative overflow-hidden shadow-2xl w-fit min-w-[320px] md:min-w-[600px]">
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-400/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+                      
+                      <div className="space-y-0 relative z-10 flex flex-col items-center px-4 md:px-12">
+                        {Object.entries(linhasAgrupadas).map(([area, membros], index, array) => (
+                          <div key={area} className="relative flex items-center group/item py-10 w-full justify-start">
+                            {/* Linha Vertical Conectora - Centralizada no Círculo Gigante */}
+                            {index < array.length - 1 && (
+                              <div className="absolute left-[64px] md:left-[88px] top-[120px] bottom-[-40px] w-[3px] bg-white/10 -translate-x-1/2 z-0" />
+                            )}
+                            
+                            {/* Círculo com Nome da Área - Tamanho Máximo */}
+                            <div className="h-32 w-32 md:h-44 md:w-44 shrink-0 rounded-full bg-[#001b3d] border-[3px] border-cyan-400/30 flex items-center justify-center text-center p-5 backdrop-blur-md shadow-2xl group-hover/item:border-cyan-400/60 group-hover/item:shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-all z-10 relative">
+                              <div className="absolute inset-0 rounded-full bg-cyan-400/5" />
+                              <span className="text-xs md:text-sm font-black text-white uppercase tracking-tighter leading-tight relative z-10">{area}</span>
+                            </div>
+
+                            {/* Quantidade de Profissionais */}
+                            <div className="ml-12 md:ml-20 flex items-center gap-8 relative z-10">
+                              <span className="text-6xl md:text-8xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">{membros.length}</span>
+                              <div className="flex flex-col">
+                                <span className="text-sm md:text-xl font-bold text-cyan-300 uppercase tracking-[0.2em]">
+                                  {membros.length === 1 ? 'Profissional' : 'Profissionais'}
+                                </span>
+                                <span className="text-xs md:text-sm text-white/40 uppercase tracking-widest mt-1">Atuando na área</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
